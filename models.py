@@ -12,6 +12,7 @@ class City(Base):
     __tablename__ = 'cities'
 
     city_id = Column(BigInteger, primary_key=True)
+    city_uuid = Column(String(36), nullable=False)
     city_name = Column(String(50), nullable=False, unique=True)
 
 
@@ -36,6 +37,7 @@ class Route(Base):
     __tablename__ = 'routes'
 
     route_id = Column(BigInteger, primary_key=True)
+    route_uuid = Column(String(36), nullable=False)
     route_name = Column(String(50), nullable=False)
     city_id = Column(ForeignKey('cities.city_id'), nullable=False, index=True)
 
@@ -54,6 +56,7 @@ class User(Base):
     profile_picture = Column(String(255), nullable=False)
     current_points = Column(Integer)
     balance = Column(DECIMAL(10, 2))
+    phone_number = Column(String(15))
 
     role = relationship('Role')
 
@@ -62,6 +65,7 @@ class Chat(Base):
     __tablename__ = 'chats'
 
     chat_id = Column(BigInteger, primary_key=True)
+    chat_uuid = Column(String(36), nullable=False)
     route_id = Column(ForeignKey('routes.route_id'), index=True)
     city_id = Column(ForeignKey('cities.city_id'), nullable=False, index=True)
     created_at = Column(DateTime)
@@ -74,6 +78,7 @@ class Notification(Base):
     __tablename__ = 'notifications'
 
     notification_id = Column(BigInteger, primary_key=True)
+    notification_uuid = Column(String(36), nullable=False)
     user_id = Column(ForeignKey('users.user_id'), nullable=False, index=True)
     notification_type = Column(String(255), nullable=False)
     notification_message = Column(String(255), nullable=False)
@@ -87,6 +92,7 @@ class PointsTransaction(Base):
     __tablename__ = 'points_transactions'
 
     transaction_id = Column(BigInteger, primary_key=True)
+    transaction_uuid = Column(String(36), nullable=False)
     user_id = Column(ForeignKey('users.user_id'), nullable=False, index=True)
     points = Column(Integer, nullable=False)
     transaction_type = Column(String(255))
@@ -100,6 +106,7 @@ class RouteStop(Base):
     __tablename__ = 'route_stops'
 
     route_stop_id = Column(BigInteger, primary_key=True)
+    route_stop_uuid = Column(String(36), nullable=False)
     route_id = Column(ForeignKey('routes.route_id'), nullable=False, index=True)
     stop_id = Column(ForeignKey('stops.stop_id'), nullable=False, index=True)
     stop_order = Column(Integer, nullable=False)
@@ -112,6 +119,7 @@ class Transaction(Base):
     __tablename__ = 'transactions'
 
     transaction_id = Column(BigInteger, primary_key=True)
+    transaction_uuid = Column(String(36), nullable=False)
     user_id = Column(ForeignKey('users.user_id'), nullable=False, index=True)
     transaction_type = Column(String(50), nullable=False)
     amount = Column(DECIMAL(10, 2), nullable=False)
@@ -127,6 +135,7 @@ class Vehicle(Base):
     __tablename__ = 'vehicles'
 
     vehicle_id = Column(BigInteger, primary_key=True)
+    vehicle_uuid = Column(String(36), nullable=False)
     route_id = Column(ForeignKey('routes.route_id'), nullable=False, index=True)
     current_location = Column(String(255))
     status = Column(String(255))
@@ -138,6 +147,7 @@ class Incident(Base):
     __tablename__ = 'incidents'
 
     incident_id = Column(BigInteger, primary_key=True)
+    incident_uuid = Column(String(36), nullable=False)
     vehicle_id = Column(ForeignKey('vehicles.vehicle_id'), nullable=False, index=True)
     incident_type = Column(String(255), nullable=False)
     incident_description = Column(String(255))
@@ -150,6 +160,7 @@ class Message(Base):
     __tablename__ = 'messages'
 
     message_id = Column(BigInteger, primary_key=True)
+    message_uuid = Column(String(36), nullable=False)
     chat_id = Column(ForeignKey('chats.chat_id'), nullable=False, index=True)
     sender_id = Column(ForeignKey('users.user_id'), nullable=False, index=True)
     message_content = Column(String(255), nullable=False)
@@ -164,6 +175,7 @@ class QrCode(Base):
     __tablename__ = 'qr_codes'
 
     qr_code_id = Column(BigInteger, primary_key=True)
+    qr_code_uuid = Column(String(36), nullable=False)
     qr_code_data = Column(String(255), nullable=False)
     stop_id = Column(ForeignKey('route_stops.route_stop_id'), nullable=False, index=True)
 
@@ -174,6 +186,7 @@ class Trip(Base):
     __tablename__ = 'trips'
 
     trip_id = Column(BigInteger, primary_key=True)
+    trip_uuid = Column(String(36), nullable=False)
     vehicle_id = Column(ForeignKey('vehicles.vehicle_id'), nullable=False, index=True)
     start_time = Column(DateTime)
     end_time = Column(DateTime)
