@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-from app.db import engine, Base
 from app.controllers.user_controller import router as user_router
 
 app = FastAPI()
