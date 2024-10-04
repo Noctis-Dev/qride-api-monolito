@@ -1,0 +1,29 @@
+# Ignora archivos temporales de diversos editores
+*.swp
+*~
+
+# Ignora archivos de caché
+npm-cache
+.cache
+
+# Ignora archivos de build
+/build
+/dist
+
+# Ignora archivos de configuración sensibles
+.env
+.env.*
+
+# Ignora archivos de virtual environments
+venv/
+env/
+
+# Ignora archivos de dependencias generadas
+pipfile.lock
+poetry.lock
+
+# Ignora archivos de documentación generada
+docs/
+
+# Ignora archivos de logs
+logs/
