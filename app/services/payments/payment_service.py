@@ -36,7 +36,7 @@ class PaymentService:
 
     async def send_whatsapp_message(self, to: str, template_name: str, language_code: str = "es_MX"):
         # Tu token de autenticación (asegúrate de reemplazarlo)
-        AUTH_TOKEN = "EAAYbJsPcZAXYBO4he9qQR6LmwBubonZCZAbWkDoN82vXFquICw9ZCVgn2GaZAtHD22b087SbTPS9mRVZCZBZCffJShP5E9MtIml6uKxUtGlLz1qh8MVLFLoWIJYKtRWJ7msOYDbiGwmMb5d9n19ZAapsEeBaPRvbYZAwHFWZBQKSFLxZAPmjCFH9mcWlT5irAYj7GZB0WFKDA2eYRXqNwnvMLNbpUiyfP2soZD"
+        AUTH_TOKEN = "EAAYbJsPcZAXYBO322VPZAey7P5I8VbHZBtRMujZAMZAN4MIoEQFgSRlKjxnTohoKRRIY9gQUrOa9uGJIZBDnBsP4wOZA3UXHqZCc1Gj9UcvuQ4braLtfzZALEpFg3w1UziiUHQ5TLLoRYRFnK0PD7BjhuYgAMVlje7ub0oS1Gq3l6ZAYMhbFVji0AYCVk9pKTwVkN9zA1rGpbZANg5ktGoA3TewHbj0ujTC"
         # URL de la API de WhatsApp
         WHATSAPP_API_URL = "https://graph.facebook.com/v20.0/470243629495943/messages"
 
@@ -59,8 +59,15 @@ class PaymentService:
             "Authorization": f"Bearer {AUTH_TOKEN}"
         }
 
-        # Enviar la solicitud POST
-        response = requests.post(WHATSAPP_API_URL, headers=headers, data=json.dumps(payload))
+        # Enviar la solicitud POST con un tiempo de espera aumentado
+        try:
+            response = requests.post(WHATSAPP_API_URL, headers=headers, data=json.dumps(payload), timeout=30)
+            response.raise_for_status()  # Levanta una excepción para códigos de estado HTTP 4xx/5xx
+        except requests.exceptions.RequestException as e:
+            return {
+                "status": "error",
+                "details": str(e)
+            }
 
         # Verificar si el mensaje fue enviado con éxito
         if response.status_code == 200:
