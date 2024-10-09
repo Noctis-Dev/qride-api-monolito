@@ -7,8 +7,8 @@ class TransactionService:
     def __init__(self, db: Session):
         self.transaction_repository = TransactionRepository(db)
 
-    async def get_transaction(self, transaction_id: int):
-        return self.transaction_repository.get_transaction(transaction_id)
+    async def get_transaction(self, transaction_uuid: str):
+        return self.transaction_repository.get_transaction(transaction_uuid)
 
     async def get_transactions(self, skip: int = 0, limit: int = 100):
         return self.transaction_repository.get_transactions(skip, limit)
@@ -23,11 +23,11 @@ class TransactionService:
         )
         return self.transaction_repository.create_transaction(transaction)
 
-    async def update_transaction(self, transaction_id: int, transaction: TransactionUpdate):
-        return self.transaction_repository.update_transaction(transaction_id, transaction)
+    async def update_transaction(self, transaction_uuid: str, transaction: TransactionUpdate):
+        return self.transaction_repository.update_transaction(transaction_uuid, transaction)
 
-    async def delete_transaction(self, transaction_id: int):
-        return self.transaction_repository.delete_transaction(transaction_id)
+    async def delete_transaction(self, transaction_uuid: str):
+        return self.transaction_repository.delete_transaction(transaction_uuid)
 
     async def update_transaction_by_uuid(self, transaction_uuid: str, update_data: dict):
         transaction = self.transaction_repository.get_transaction_by_uuid(transaction_uuid)

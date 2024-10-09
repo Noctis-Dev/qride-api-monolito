@@ -9,8 +9,8 @@ class TransactionRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def get_transaction(self, transaction_id: int):
-        return self.db.query(Transaction).filter(Transaction.transaction_id == transaction_id).first()
+    def get_transaction(self, transaction_uuid: str):
+        return self.db.query(Transaction).filter(Transaction.transaction_uuid == transaction_uuid).first()
 
     def get_transaction_by_uuid(self, transaction_uuid: str):
         return self.db.query(Transaction).filter(Transaction.transaction_uuid == transaction_uuid).first()
@@ -33,8 +33,8 @@ class TransactionRepository:
         self.db.refresh(db_transaction)
         return db_transaction
 
-    def update_transaction(self, transaction_id: int, transaction: TransactionUpdate):
-        db_transaction = self.get_transaction(transaction_id)
+    def update_transaction(self, transaction_uuid: str, transaction: TransactionUpdate):
+        db_transaction = self.get_transaction(transaction_uuid)
         if db_transaction:
             for key, value in transaction.dict(exclude_unset=True).items():
                 setattr(db_transaction, key, value)
@@ -42,8 +42,8 @@ class TransactionRepository:
             self.db.refresh(db_transaction)
         return db_transaction
 
-    def delete_transaction(self, transaction_id: int):
-        db_transaction = self.get_transaction(transaction_id)
+    def delete_transaction(self, transaction_uuid: str):
+        db_transaction = self.get_transaction(transaction_uuid)
         if db_transaction:
             self.db.delete(db_transaction)
             self.db.commit()

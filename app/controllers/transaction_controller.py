@@ -6,10 +6,10 @@ from app.db import get_db
 
 router = APIRouter()
 
-@router.get("/transactions/{transaction_id}", response_model=Transaction)
-def read_transaction(transaction_id: int, db: Session = Depends(get_db)):
+@router.get("/transactions/{transaction_uuid}", response_model=Transaction)
+def read_transaction(transaction_uuid: str, db: Session = Depends(get_db)):
     transaction_service = TransactionService(db)
-    transaction = transaction_service.get_transaction(transaction_id)
+    transaction = transaction_service.get_transaction(transaction_uuid)
     if transaction is None:
         raise HTTPException(status_code=404, detail="Transaction not found")
     return transaction
@@ -24,13 +24,13 @@ def create_transaction(transaction: TransactionCreate, db: Session = Depends(get
     transaction_service = TransactionService(db)
     return transaction_service.create_transaction(transaction)
 
-@router.put("/transactions/{transaction_id}", response_model=Transaction)
-def update_transaction(transaction_id: int, transaction: TransactionUpdate, db: Session = Depends(get_db)):
+@router.put("/transactions/{transaction_uuid}", response_model=Transaction)
+def update_transaction(transaction_uuid: str, transaction: TransactionUpdate, db: Session = Depends(get_db)):
     transaction_service = TransactionService(db)
-    return transaction_service.update_transaction(transaction_id, transaction)
+    return transaction_service.update_transaction(transaction_uuid, transaction)
 
-@router.delete("/transactions/{transaction_id}", response_model=Transaction)
-def delete_transaction(transaction_id: int, db: Session = Depends(get_db)):
+@router.delete("/transactions/{transaction_uuid}", response_model=Transaction)
+def delete_transaction(transaction_uuid: str, db: Session = Depends(get_db)):
     transaction_service = TransactionService(db)
-    return transaction_service.delete_transaction(transaction_id)
+    return transaction_service.delete_transaction(transaction_uuid)
 

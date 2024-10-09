@@ -16,10 +16,10 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Email already registered")
     return user_service.create_user(user)
 
-@router.get("/users/{user_id}", response_model=User)
-def read_user(user_id: int, db: Session = Depends(get_db)):
+@router.get("/users/{user_uuid}", response_model=User)
+def read_user(user_uuid: str, db: Session = Depends(get_db)):
     user_service = UserService(UserRepository(db))
-    db_user = user_service.get_user(user_id)
+    db_user = user_service.get_user(user_uuid)
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
     return db_user
@@ -30,18 +30,18 @@ def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     users = user_service.get_users(skip=skip, limit=limit)
     return users
 
-@router.put("/users/{user_id}", response_model=User)
-def update_user(user_id: int, user: UserUpdate, db: Session = Depends(get_db)):
+@router.put("/users/{user_uuid}", response_model=User)
+def update_user(user_uuid: str, user: UserUpdate, db: Session = Depends(get_db)):
     user_service = UserService(UserRepository(db))
-    db_user = user_service.get_user(user_id)
+    db_user = user_service.get_user(user_uuid)
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
-    return user_service.update_user(user_id, user)
+    return user_service.update_user(user_uuid, user)
 
-@router.delete("/users/{user_id}", response_model=User)
-def delete_user(user_id: int, db: Session = Depends(get_db)):
+@router.delete("/users/{user_uuid}", response_model=User)
+def delete_user(user_uuid: str, db: Session = Depends(get_db)):
     user_service = UserService(UserRepository(db))
-    db_user = user_service.get_user(user_id)
+    db_user = user_service.get_user(user_uuid)
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
-    return user_service.delete_user(user_id)
+    return user_service.delete_user(user_uuid)

@@ -6,8 +6,8 @@ class UserService:
     def __init__(self, user_repo: UserRepository):
         self.user_repo = user_repo
 
-    def get_user(self, user_id: int):
-        return self.user_repo.get_user(user_id)
+    def get_user(self, user_uuid: str):
+        return self.user_repo.get_user(user_uuid)
 
     def get_user_by_email(self, email: str):
         return self.user_repo.get_user_by_email(email)
@@ -18,8 +18,8 @@ class UserService:
     def create_user(self, user: UserCreate):
         return self.user_repo.create_user(user)
 
-    def update_user(self, user_id: int, user: UserUpdate):
-        return self.user_repo.update_user(user_id, user)
+    def update_user(self, user_uuid: str, user: UserUpdate):
+        return self.user_repo.update_user(user_uuid, user)
 
-    def delete_user(self, user_id: int):
-        return self.user_repo.delete_user(user_id)
+    def delete_user(self, user_uuid: str):
+        return self.user_repo.delete_user(user_uuid)
